@@ -96,11 +96,123 @@ class TiktokController extends Controller
         echo "<pre>";
         echo 'Signature: ' . $signature;
         print_r($authorizedShopList);
-//        $data = $client->Product->uploadProductImage(public_path('img/454280251_2242598772767956_2031439075475016717_n.jpg'));
-//        dd($data);
-
+        print_r($new_access_token);
+        $warehourse = $client->Logistic->getWarehouseList();
         $products = $client->Product->getCategories();
-        dd($products);
+        $products = $products['categories'];
+        $array = [];
+        foreach ($products as $value){
+            if ($value['local_name'] === 'Womenswear & Underwear'){
+                $array[] = $value;
+            }
+            if ($value['local_name'] === 'T-shirts'){
+                $array[] = $value;
+            }
+
+            if ($value['local_name'] === "Women's Tops"){
+                $array[] = $value;
+            }
+        }
+
+        $product = [
+            "title" => "Áo Thun Nam Cotton 100% | Thương Hiệu: ABC | Mẫu: T123",
+            "product_name" => "test",
+            "description" => "test",
+            "category_id" => "601302",
+            "is_cod_open" => true,
+            "package_dimensions" => [  // Kích thước gói hàng
+                "height" => "10",     // Chiều cao, định dạng chuỗi
+                "length" => "10",     // Chiều dài, định dạng chuỗi
+                "width" => "10",      // Chiều rộng, định dạng chuỗi
+                "unit" => "CENTIMETER" // Đơn vị kích thước, xác nhận giá trị hợp lệ với API
+            ],
+            "package_weight" => [
+                "value" => "1.32",
+                "unit" => "KILOGRAM",
+            ],
+            "package_dimension_unit" => "metric",
+
+            "images" => [
+                [
+                    "id" => "tos-useast5-i-omjb5zjo8w-tx/d6d4893dbffa4a7f8ea358bb5ec07331"
+                ]
+            ],
+
+            "main_images" => [
+                [
+                    "uri" => "tos-useast5-i-omjb5zjo8w-tx/e8d3ffa78bdf45eaa2cf35257660dc4a"
+                ]
+            ],
+            "skus" => [
+                [
+                    "combined_skus" => [],
+                    "external_urls" => [],
+                    "price" => [
+                        "amount" => "999", // Giá của SKU dưới dạng chuỗi
+                        "currency" => "USD" // Đơn vị tiền tệ của giá
+                    ],
+                    "sales_attributes" => [],
+                    "inventory" => [
+                        [
+                            "warehouse_id" => "7389568644710352682"
+                        ]
+                    ]
+                ]
+            ]
+        ];
+
+//        $products = $client->Product->createProduct($product);
+//        $products = $client->Product->uploadProductImage('https://scontent.fhan4-4.fna.fbcdn.net/v/t39.30808-6/454280251_2242598772767956_2031439075475016717_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=fO96L36olqgQ7kNvgE_LKVz&_nc_ht=scontent.fhan4-4.fna&oh=00_AYAMmJup2MJJ6GcyuHQqzIjK3q2UvCYf1dsS8OFdbmFfLw&oe=66B7B007');
+
+        //udate product
+        $dataUpdate = [
+            "title" => "Áo Thun Nam Cotton 100% | Thương Hiệu: ABC | Mẫu: T123",
+            "description" => 'test',
+            "category_id" => "601302",
+            "main_images" => [
+                [
+                    "uri" => "tos-useast5-i-omjb5zjo8w-tx/e8d3ffa78bdf45eaa2cf35257660dc4a"
+                ]
+            ],
+            "is_cod_open" => true,
+            "package_dimensions" => [  // Kích thước gói hàng
+                "height" => "10",     // Chiều cao, định dạng chuỗi
+                "length" => "10",     // Chiều dài, định dạng chuỗi
+                "width" => "10",      // Chiều rộng, định dạng chuỗi
+                "unit" => "CENTIMETER" // Đơn vị kích thước, xác nhận giá trị hợp lệ với API
+            ],
+            "package_weight" => [
+                "value" => "1.32",
+                "unit" => "KILOGRAM",
+            ],
+            "package_dimension_unit" => "metric",
+
+            "skus" => [
+                [
+                    "id" => "1729575785671593987",
+                    "sales_attributes" => [
+                        [
+                            "attribute_id" => "100089",
+                            "attribute_name" => "Color",
+                            "value_id" => "1729592969712207000",
+                            "value_name" => "Red"
+                        ]
+                    ],
+                    "price" => [
+                        "amount" => "999", // Giá của SKU dưới dạng chuỗi
+                        "currency" => "USD" // Đơn vị tiền tệ của giá
+                    ],
+                    "inventory" => [
+                        [
+                            "quantity" => 100,
+                            "warehouse_id" => "7389568644710352682"
+                        ]
+                    ]
+                ]
+            ]
+        ];
+        $products = $client->Product->editProduct('1729575737232494595', $dataUpdate);
+dd($products);
     }
 
 
