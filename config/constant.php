@@ -1,0 +1,2 @@
+<?php
+define('REFRESH_TOKEN', 'TTP_gNLh8AAAAADsC3hwsIH-34PKjEDdGpADMBoxJvGa0PqAxEtGytpQwms0v9qV9DP7xCcdF_tpQeM');
